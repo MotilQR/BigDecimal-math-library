@@ -1,20 +1,25 @@
-[![GitHub license](https://github.com/MotilQR/BigDecimal-math-library/blob/main/LICENSE)](https://github.com/MotilQR/BigDecimal-math-library/blob/main/LICENSE)
+# BigDecimal Math Library
 
-## Getting Started
+A Java library providing high-precision mathematical functions for BigDecimal, including logarithms, trigonometry, and more.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Features
 
-## Folder Structure
+- Logarithmic functions (ln, log10, etc.)
 
-The workspace contains two folders by default, where:
+- Trigonometric functions (sin, cos, tan, etc.)
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- Exponential and power functions
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+- High-precision arithmetic calculations
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Usage
 
-## Dependency Management
+Just install [BigMath.java file](https://github.com/MotilQR/BigDecimal-math-library/blob/main/src/BigMath.java) from src folder, later i`ll publish this library to maven.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+## License
+
+*This project is licensed under the MIT License - see the LICENSE file for details.*
+
+
+### Contributions are welcome! Feel free to open an issue or submit a pull request.
