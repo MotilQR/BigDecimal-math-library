@@ -1,3 +1,5 @@
+[![GitHub license](https://github.com/MotilQR/BigDecimal-math-library/blob/main/LICENSE)](https://github.com/MotilQR/BigDecimal-math-library/blob/main/LICENSE)
+
 ## Getting Started
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
