@@ -14,15 +14,9 @@ public class BigMath {
 
     public static BigDecimal exp(BigDecimal x) {
         if (x.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ONE;
-
-        // Разделяем на целую и дробную часть
         int n = x.setScale(0, RoundingMode.FLOOR).intValue();
         BigDecimal r = x.subtract(new BigDecimal(n), mc);
-
-        // Высокоточное возведение e^n через быстрое умножение
         BigDecimal intPart = powSys(E, n);
-
-        // e^r через ряд Тейлора
         BigDecimal term = BigDecimal.ONE;
         BigDecimal sum = BigDecimal.ONE;
         for (int i = 1; i < mc.getPrecision() * 2; i++) {
@@ -47,12 +41,8 @@ public class BigMath {
             x = x.multiply(TWO, mc);
             k--;
         }
-
-        // y = (x - 1) / (x + 1)
         BigDecimal y = x.subtract(BigDecimal.ONE).divide(x.add(BigDecimal.ONE), mc);
         BigDecimal y2 = y.multiply(y, mc);
-        
-        // log(1+y) = 2(y + y^3/3 + y^5/5 + ...)
         BigDecimal term = y;
         BigDecimal sum = term;
         for (int i = 3; i < 100; i += 2) {
@@ -68,7 +58,6 @@ public class BigMath {
     private static BigDecimal powSys(BigDecimal base, int exponent) {
         if (exponent == 0) return BigDecimal.ONE;
         if (exponent < 0) return BigDecimal.ONE.divide(powSys(base, -exponent), mc);
-        
         BigDecimal result = BigDecimal.ONE;
         BigDecimal power = base;
         while (exponent > 0) {
@@ -106,30 +95,47 @@ public class BigMath {
     }
 
     public static BigDecimal cos(BigDecimal x) {
-        BigDecimal result = BigDecimal.ONE;
-        BigDecimal xSquared = x.multiply(x, mc);
-        BigDecimal term = xSquared;
-        BigDecimal n = BigDecimal.TWO;
-        int sign = -1;
-
-        while (n.compareTo(BigDecimal.valueOf(50)) != 1) {
-            result = result.add(term.multiply(BigDecimal.valueOf(sign)).divide(fact(n), mc));
-            sign *= -1;
-            n = n.add(BigDecimal.TWO);
-            term = term.multiply(xSquared);
-        }
-        return result;
+        BigDecimal s = x.multiply(BigDecimal.valueOf(2), mc).divide(PI, mc).remainder(BigDecimal.valueOf(2));
+        if (s.equals(BigDecimal.valueOf(1.0)))
+            return BigDecimal.valueOf(0);
+        Double xa = reduceAngle(x);
+        return BigDecimal.valueOf(Math.cos(xa));
     }
-    
     public static BigDecimal sin(BigDecimal x) {
-        BigDecimal cos = pow(cos(x), BigDecimal.TWO);
-        BigDecimal res = root(BigDecimal.ONE.subtract(cos), BigDecimal.TWO);
-        return res;
+        String s = x.remainder(PI).toPlainString();
+        if (new BigDecimal(s).equals(BigDecimal.ZERO))
+            return BigDecimal.ZERO;
+        Double xa = reduceAngle(x);
+        return BigDecimal.valueOf(Math.sin(xa));
     }
-
+    public static BigDecimal tg(BigDecimal x) {
+        BigDecimal s = sin(x);
+        BigDecimal c = cos(x);
+        if (c.equals(BigDecimal.ZERO))
+            throw new NumberFormatException();
+        return s.divide(c, mc);
+    }
+    public static BigDecimal ctg(BigDecimal x) {
+        BigDecimal s = sin(x);
+        BigDecimal c = cos(x);
+        if (s.compareTo(BigDecimal.valueOf(0.0)) == 0)
+            throw new NumberFormatException();
+        return c.divide(s, mc);
+    }
+    public static BigDecimal acos(BigDecimal x) {
+        if (x.abs().compareTo(BigDecimal.ONE) == 1)
+            throw new NumberFormatException();
+        return BigDecimal.valueOf(Math.acos(x.doubleValue()));
+    }
+    public static BigDecimal asin(BigDecimal x) {
+        if (x.abs().compareTo(BigDecimal.ONE) == 1)
+            throw new NumberFormatException();
+        return BigDecimal.valueOf(Math.asin(x.doubleValue()));
+    }
     public static Double reduceAngle(BigDecimal x) {
         BigDecimal TwoPI = PI.multiply(BigDecimal.valueOf(2), mc);
-        for (BigDecimal i = TwoPI; x.compareTo(TwoPI) >= 0; x = x.subtract(i));
+        BigDecimal test = x.divideToIntegralValue(TwoPI);
+        x = x.subtract(test.multiply(TwoPI, mc));
         return x.doubleValue();
     }
 
