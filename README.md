@@ -6,7 +6,7 @@ A Java library providing high-precision mathematical functions for BigDecimal, i
 
 - Logarithmic functions (ln, log10, etc.)
 
-- Trigonometric functions (sin, cos, tan, etc.)
+- Trigonometric functions (sin, cos, tg, etc.)
 
 - Exponential and power functions
 
